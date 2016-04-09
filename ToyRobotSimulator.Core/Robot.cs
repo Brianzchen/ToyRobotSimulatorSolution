@@ -12,7 +12,7 @@ namespace ToyRobotSimulator.Core
 
         private int _xPos;
         private int _yPos;
-        private Directions _direction;
+        private Direction _direction;
         private bool _placed = false;
 
         // Class properties
@@ -27,7 +27,7 @@ namespace ToyRobotSimulator.Core
             get { return _yPos; }
         }
 
-        public Directions Direction
+        public Direction Direction
         {
             get { return _direction; }
         }
@@ -41,15 +41,13 @@ namespace ToyRobotSimulator.Core
 
         public void Place(int x, int y, string direction)
         {
-            // Checks if direction value is valid otherwise throw error and return
             try
             {
-                _direction = (Directions)Enum.Parse(typeof(Directions), direction, true);
+                _direction = (Direction)Enum.Parse(typeof(Direction), direction, true);
             }
             catch (Exception)
             {
-                Console.WriteLine("Error");
-                return;
+                throw new InvalidOperationException("Direction is not valid");
             }
 
             _xPos = x;
@@ -59,18 +57,18 @@ namespace ToyRobotSimulator.Core
 
         public void Move()
         {
-            switch(Convert.ToInt32(_direction))
+            switch(_direction)
             {
-                case 0:
+                case Direction.North:
                     _yPos++;
                     break;
-                case 1:
+                case Direction.South:
                     _yPos--;
                     break;
-                case 2:
+                case Direction.East:
                     _xPos++;
                     break;
-                case 3:
+                case Direction.West:
                     _xPos--;
                     break;
             }
@@ -78,38 +76,38 @@ namespace ToyRobotSimulator.Core
 
         public void Left()
         {
-            switch (Convert.ToInt32(_direction))
+            switch (_direction)
             {
-                case 0:
-                    _direction = Directions.West;
+                case Direction.North:
+                    _direction = Direction.West;
                     break;
-                case 1:
-                    _direction = Directions.East;
+                case Direction.South:
+                    _direction = Direction.East;
                     break;
-                case 2:
-                    _direction = Directions.North;
+                case Direction.East:
+                    _direction = Direction.North;
                     break;
-                case 3:
-                    _direction = Directions.South;
+                case Direction.West:
+                    _direction = Direction.South;
                     break;
             }
         }
 
         public void Right()
         {
-            switch (Convert.ToInt32(_direction))
+            switch (_direction)
             {
-                case 0:
-                    _direction = Directions.East;
+                case Direction.North:
+                    _direction = Direction.East;
                     break;
-                case 1:
-                    _direction = Directions.West;
+                case Direction.South:
+                    _direction = Direction.West;
                     break;
-                case 2:
-                    _direction = Directions.South;
+                case Direction.East:
+                    _direction = Direction.South;
                     break;
-                case 3:
-                    _direction = Directions.North;
+                case Direction.West:
+                    _direction = Direction.North;
                     break;
             }
         }

@@ -8,7 +8,7 @@ namespace ToyRobotSimulator.Core
 {
     public class Process
     {
-        private Commands _command;
+        private Command _command;
         private int _xRobotPos;
         private int _yRobotPos;
         private string _robotDirection;
@@ -17,7 +17,7 @@ namespace ToyRobotSimulator.Core
         {
             try
             {
-                _command = (Commands)Enum.Parse(typeof(Commands), command, true);
+                _command = (Command)Enum.Parse(typeof(Command), command, true);
             } catch(Exception)
             {
                 Console.WriteLine("Command is not valid");
@@ -26,36 +26,33 @@ namespace ToyRobotSimulator.Core
             
             try
             {
-                switch (Convert.ToInt32(_command))
+                switch (_command)
                 {
-                    case 0:
+                    case Command.Place:
                         Console.WriteLine("This command can only be issued with an additional argument in the format 'x,y,direction'");
                         break;
-                    case 1:
+                    case Command.Move:
                         table.ValidateRobotHasBeenPlaced();
                         table.ValidateRobotWillNotFallOffTableTop(_command);
                         robot.Move();
                         break;
-                    case 2:
+                    case Command.Left:
                         table.ValidateRobotHasBeenPlaced();
                         robot.Left();
                         break;
-                    case 3:
+                    case Command.Right:
                         table.ValidateRobotHasBeenPlaced();
                         robot.Right();
                         break;
-                    case 4:
+                    case Command.Report:
                         table.ValidateRobotHasBeenPlaced();
                         Console.WriteLine("The robot is at position: " + robot.XPos + ", " + robot.YPos + " and facing " + robot.Direction);
                         break;
                 }
             }
-                catch (InvalidOperationException)
+            catch (Exception e)
             {
-                return;
-            }
-            catch (Exception)
-            {
+                Console.WriteLine(e.Message);
                 return;
             }    
         }
@@ -64,7 +61,7 @@ namespace ToyRobotSimulator.Core
         {
             try
             {
-                _command = (Commands)Enum.Parse(typeof(Commands), command, true);
+                _command = (Command)Enum.Parse(typeof(Command), command, true);
             }
             catch (Exception)
             {
@@ -92,12 +89,9 @@ namespace ToyRobotSimulator.Core
                     }
                 }
             }
-            catch (InvalidOperationException)
+            catch (Exception e)
             {
-                return;
-            }
-            catch (Exception)
-            {
+                Console.WriteLine(e.Message);
                 return;
             }
         }

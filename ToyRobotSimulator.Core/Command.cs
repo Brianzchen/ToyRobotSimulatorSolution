@@ -6,15 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToyRobotSimulator.Core
 {
-    public enum Directions
-    {
-        North,
-        South,
-        East,
-        West
-    }
-
-    public enum Commands
+    public enum Command
     {
         Place,
         Move,

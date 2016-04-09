@@ -18,63 +18,62 @@ namespace ToyRobotSimulator.Core
                 throw new ArgumentNullException("robot cannot be null");
             }
 
+            if (xSize <=0 || ySize <=0)
+            {
+                throw new ArgumentOutOfRangeException("X and y values must be set greater than zero");
+            }
+
             _robot = robot;
-            _xSize = xSize-1;
-            _ySize = ySize-1;
+            _xSize = xSize;
+            _ySize = ySize;
         }
 
-        public void ValidateRobotWillNotFallOffTableTop(Commands command)
+        public void ValidateRobotWillNotFallOffTableTop(Command command)
         {
-            if (command == Commands.Move)
+            if (command == Command.Move)
             {
-                switch(Convert.ToInt32(_robot.Direction))
+                switch(_robot.Direction)
                 {
-                    case 0:
-                        if (_robot.YPos == _ySize)
+                    case Direction.North:
+                        if (_robot.YPos+1 >= _ySize)
                         {
-                            Console.WriteLine("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further North, please turn the robot or place it at a new location");
-                            throw new InvalidOperationException("You cannot move the robot any further");
+                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further North, please turn the robot or place it at a new location");
                         }
                         break;
-                    case 1:
-                        if (_robot.YPos == 0)
+                    case Direction.South:
+                        if (_robot.YPos-1 < 0)
                         {
-                            Console.WriteLine("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further South, please turn the robot or place it at a new location");
-                            throw new InvalidOperationException("You cannot move the robot any further");
+                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further South, please turn the robot or place it at a new location");
                         }
                         break;
-                    case 2:
-                        if (_robot.XPos == _xSize)
+                    case Direction.East:
+                        if (_robot.XPos+1 >= _xSize)
                         {
-                            Console.WriteLine("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further East, please turn the robot or place it at a new location");
-                            throw new InvalidOperationException("You cannot move the robot any further");
+                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further East, please turn the robot or place it at a new location");
                         }
                         break;
-                    case 3:
-                        if (_robot.XPos == 0)
+                    case Direction.West:
+                        if (_robot.XPos-1 < 0)
                         {
-                            Console.WriteLine("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further West, please turn the robot or place it at a new location");
-                            throw new InvalidOperationException("You cannot move the robot any further");
+                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further West, please turn the robot or place it at a new location");
                         }
                         break;
                 }
             }
         }
 
-        public void ValidateRobotWillNotFallOffTableTop(Commands command, int xRobotPos, int yRobotPos)
+        public void ValidateRobotWillNotFallOffTableTop(Command command, int xRobotPos, int yRobotPos)
         {
-            if (command == Commands.Place)
+            if (command == Command.Place)
             {
-                if (xRobotPos > _xSize || xRobotPos < 0)
+                if (xRobotPos >= _xSize || xRobotPos < 0)
                 {
-                    Console.WriteLine("Your x position is out of bounds, please select an x value between, 0 and " + _xSize);
-                    throw new ArgumentOutOfRangeException("x value out of range");
+                    throw new ArgumentOutOfRangeException("Your x position is out of bounds, please select an x value between, 0 and " + (_xSize-1));
                 }
 
-                if (yRobotPos > _ySize || yRobotPos < 0)
+                if (yRobotPos >= _ySize || yRobotPos < 0)
                 {
-                    Console.WriteLine("Your y position is out of bounds, please select a y value between, 0 and " + _ySize);
-                    throw new ArgumentOutOfRangeException("y value out of range");
+                    throw new ArgumentOutOfRangeException("Your y position is out of bounds, please select a y value between, 0 and " + (_ySize-1));
                 }
             }
         }
@@ -83,8 +82,7 @@ namespace ToyRobotSimulator.Core
         {
             if (_robot.IsPlaced == false)
             {
-                Console.WriteLine("Please use the place command to place the robot before you can access other commands");
-                throw new Exception("Robot has not been placed yet");
+                throw new Exception("Please use the place command to place the robot before you can access other commands");
             }
         }
     }

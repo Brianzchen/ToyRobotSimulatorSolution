@@ -25,15 +25,16 @@ namespace ToyRobotSimulator
 
             while (true)
             {
-                string[] command = Console.ReadLine().Split();
+                string[] commandSplit = Console.ReadLine().Split();
+                string command = commandSplit[0];
 
-
-                if (command.Length == 1)
+                if (commandSplit.Length == 1)
                 {
-                    process = new Process(robot, table, command[0]);
-                } else if (command.Length == 2)
+                    process = new Process(robot, table, command);
+                } else if (commandSplit.Length == 2)
                 {
-                    process = new Process(robot, table, command[0], command[1]);
+                    string input = commandSplit[1];
+                    process = new Process(robot, table, command, input);
                 } else
                 {
                     Console.WriteLine("Command is not valid");
