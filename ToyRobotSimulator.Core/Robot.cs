@@ -41,11 +41,12 @@ namespace ToyRobotSimulator.Core
 
         public void Place(int x, int y, string direction)
         {
-            try
+            if (direction == null)
             {
-                _direction = (Direction)Enum.Parse(typeof(Direction), direction, true);
+                throw new ArgumentNullException("Direction cannot be null");
             }
-            catch (Exception)
+
+            if (!Enum.TryParse(direction, true, out _direction))
             {
                 throw new InvalidOperationException("Direction is not valid");
             }
@@ -71,6 +72,8 @@ namespace ToyRobotSimulator.Core
                 case Direction.West:
                     _xPos--;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Direction is not valid");
             }
         }
 
@@ -90,6 +93,8 @@ namespace ToyRobotSimulator.Core
                 case Direction.West:
                     _direction = Direction.South;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Direction is not valid");
             }
         }
 
@@ -109,6 +114,8 @@ namespace ToyRobotSimulator.Core
                 case Direction.West:
                     _direction = Direction.North;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Direction is not valid");
             }
         }
     }
