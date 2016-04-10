@@ -13,16 +13,12 @@ namespace ToyRobotSimulator.Core
             _table = table;
         }
 
-        public void Simulate(string command)
+        public void RunSingleCommand(string commandToExecute)
         {
-            Command commandEnum;
-            if (!Enum.TryParse(command, true, out commandEnum))
-            {
-                throw new InvalidOperationException("Command is not valid");
-            }
-            
             try
             {
+                Command commandEnum = CommandResolver.Resolve(commandToExecute);
+
                 if (commandEnum == Command.Place)
                 {
                     throw new ArgumentException("This command can only be issued with an additional argument in the format 'x,y,direction'");
@@ -52,39 +48,30 @@ namespace ToyRobotSimulator.Core
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            }    
+            }
         }
 
-        public void Simulate(string commandToExecute, string inputForPlacement)
+        public void RunPlaceCommand(string commandToExecute, string inputForPlacement)
         {
-            Command commandEnum;
-            if (!Enum.TryParse(commandToExecute, true, out commandEnum))
-            {
-                throw new InvalidOperationException("Command is not valid");
-            }
-
-            int xRobotPos;
-            int yRobotPos;
-            string robotDirection;
-
             try
             {
-                if (commandEnum == Command.Place)
-                {
-                    string[] placement = inputForPlacement.Split(',');
-                    if (placement.Length == 3)
-                    {
-                        xRobotPos = Convert.ToInt32(placement[0]);
-                        yRobotPos = Convert.ToInt32(placement[1]);
-                        robotDirection = placement[2];
+                Command commandEnum = CommandResolver.Resolve(commandToExecute);
 
-                        _table.ValidatePlacedRobotWillNotFall(commandEnum, xRobotPos, yRobotPos);
-                        _robot.Place(xRobotPos, yRobotPos, robotDirection);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Please enter the paramaters as follows: x,y,direction");
-                    }
+                if (commandEnum != Command.Place) throw new ArgumentException("This is not a valid command");
+
+                string[] placement = inputForPlacement.Split(',');
+                if (placement.Length == 3)
+                {
+                    int xRobotPos = Convert.ToInt32(placement[0]);
+                    int yRobotPos = Convert.ToInt32(placement[1]);
+                    string robotDirection = placement[2];
+
+                    _table.ValidatePlacedRobotWillNotFall(commandEnum, xRobotPos, yRobotPos);
+                    _robot.Place(xRobotPos, yRobotPos, robotDirection);
+                }
+                else
+                {
+                    throw new ArgumentException("Please enter the paramaters as follows: x,y,direction");
                 }
             }
             catch (Exception e)

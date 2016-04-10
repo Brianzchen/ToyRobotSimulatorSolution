@@ -42,10 +42,7 @@ namespace ToyRobotSimulator.Core
                 throw new ArgumentNullException("Direction cannot be null");
             }
 
-            if (!Enum.TryParse(direction, true, out _direction))
-            {
-                throw new InvalidOperationException("Direction is not valid");
-            }
+            _direction = DirectionResolver.Resolve(direction);
 
             _xPos = x;
             _yPos = y;
@@ -54,7 +51,9 @@ namespace ToyRobotSimulator.Core
 
         public void Move()
         {
-            switch(_direction)
+            CheckIfHasBeenPlaced();
+
+            switch (_direction)
             {
                 case Direction.North:
                     _yPos++;
@@ -75,6 +74,8 @@ namespace ToyRobotSimulator.Core
 
         public void Left()
         {
+            CheckIfHasBeenPlaced();
+
             switch (_direction)
             {
                 case Direction.North:
@@ -96,6 +97,8 @@ namespace ToyRobotSimulator.Core
 
         public void Right()
         {
+            CheckIfHasBeenPlaced();
+
             switch (_direction)
             {
                 case Direction.North:
@@ -117,7 +120,17 @@ namespace ToyRobotSimulator.Core
 
         public string Report()
         {
+            CheckIfHasBeenPlaced();
+
             return "The robot is at position: " + _xPos + ", " + _yPos + " and facing " + _direction;
+        }
+
+        private void CheckIfHasBeenPlaced()
+        {
+            if (_placed == false)
+            {
+                throw new InvalidOperationException("You cannot perform this operation before the robot has been placed");
+            }
         }
     }
 }

@@ -10,11 +10,12 @@ namespace ToyRobotSimulator.Core
 
         public SquareTableTop(Robot robot, int xSize, int ySize)
         {
-            if (robot == null) {
+            if (robot == null)
+            {
                 throw new ArgumentNullException("robot cannot be null");
             }
 
-            if (xSize <=0 || ySize <=0)
+            if (xSize <= 0 || ySize <= 0)
             {
                 throw new ArgumentOutOfRangeException("X and y values must be set greater than zero");
             }
@@ -26,32 +27,32 @@ namespace ToyRobotSimulator.Core
 
         public void ValidateMoveRobotWillNotFall(Command command)
         {
-            if (command != Command.Move) return;
+            if (command != Command.Move) throw new ArgumentException($"You cannot perform this function with the command, {command.ToString()}");
 
-            switch(_robot.Direction)
+            switch (_robot.Direction)
             {
                 case Direction.North:
-                    if (_robot.YPos+1 >= _ySize)
+                    if (_robot.YPos + 1 >= _ySize)
                     {
-                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further North, please turn the robot or place it at a new location");
+                        ThrowDirectionException(Direction.North);
                     }
                     break;
                 case Direction.South:
-                    if (_robot.YPos-1 < 0)
+                    if (_robot.YPos - 1 < 0)
                     {
-                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further South, please turn the robot or place it at a new location");
+                        ThrowDirectionException(Direction.South);
                     }
                     break;
                 case Direction.East:
-                    if (_robot.XPos+1 >= _xSize)
+                    if (_robot.XPos + 1 >= _xSize)
                     {
-                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further East, please turn the robot or place it at a new location");
+                        ThrowDirectionException(Direction.East);
                     }
                     break;
                 case Direction.West:
-                    if (_robot.XPos-1 < 0)
+                    if (_robot.XPos - 1 < 0)
                     {
-                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further West, please turn the robot or place it at a new location");
+                        ThrowDirectionException(Direction.West);
                     }
                     break;
                 default:
@@ -65,12 +66,12 @@ namespace ToyRobotSimulator.Core
             {
                 if (xRobotPos >= _xSize || xRobotPos < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Your x position is out of bounds, please select an x value between, 0 and " + (_xSize-1));
+                    throw new ArgumentOutOfRangeException($"Your x position is out of bounds, please select an x value between, 0 and {_xSize - 1}");
                 }
 
                 if (yRobotPos >= _ySize || yRobotPos < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Your y position is out of bounds, please select a y value between, 0 and " + (_ySize-1));
+                    throw new ArgumentOutOfRangeException($"Your y position is out of bounds, please select a y value between, 0 and {_ySize - 1}");
                 }
             }
         }
@@ -79,8 +80,13 @@ namespace ToyRobotSimulator.Core
         {
             if (_robot.IsPlaced == false)
             {
-                throw new Exception("Please use the place command to place the robot before you can access other commands");
+                throw new InvalidOperationException("Please use the place command to place the robot before you can access other commands");
             }
+        }
+
+        private void ThrowDirectionException(Direction direction)
+        {
+            throw new InvalidOperationException($"The robot is at {_robot.XPos}, {_robot.YPos} and connot move further {_robot.Direction}, please turn the robot or place it at a new location");
         }
     }
 }

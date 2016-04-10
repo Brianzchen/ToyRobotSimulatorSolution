@@ -18,7 +18,7 @@ namespace ToyRobotSimulator
                 // Check if text file exists and run text file
             }
 
-            
+
 
             while (true)
             {
@@ -28,21 +28,37 @@ namespace ToyRobotSimulator
                     continue;
                 }
 
-                string[] commandSplit = readLine.Trim().Split();
-                string commandToExecute = commandSplit[0];
+                string[] commandSplit = readLine.Trim().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (commandSplit.Length == 1)
+                if (commandSplit.Length > 0)
                 {
-                    process.Simulate(commandToExecute);
-                } else if (commandSplit.Length == 2)
-                {
-                    string input = commandSplit[1];
-                    process.Simulate(commandToExecute, input);
-                } else
-                {
-                    Console.WriteLine("Command is not valid");
+                    string commandToExecute = commandSplit[0];
+
+                    if (CheckIfCommandHasOneArgument(commandSplit))
+                    {
+                        process.RunSingleCommand(commandToExecute);
+                    }
+                    else if (CheckIfCommandHasTwoArguments(commandSplit))
+                    {
+                        string input = commandSplit[1];
+                        process.RunPlaceCommand(commandToExecute, input);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Command is not valid");
+                    }
                 }
             }
+        }
+
+        private static bool CheckIfCommandHasOneArgument(string[] commandSplit)
+        {
+            return commandSplit.Length == 1;
+        }
+
+        private static bool CheckIfCommandHasTwoArguments(string[] commandSplit)
+        {
+            return commandSplit.Length == 2;
         }
     }
 }
