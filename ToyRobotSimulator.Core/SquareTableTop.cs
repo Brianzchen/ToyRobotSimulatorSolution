@@ -4,9 +4,13 @@ namespace ToyRobotSimulator.Core
 {
     public class SquareTableTop
     {
+        // Class Variables
+
         private readonly Robot _robot;
         private readonly int _xSize;
         private readonly int _ySize;
+
+        // Class Constructor
 
         public SquareTableTop(Robot robot, int xSize, int ySize)
         {
@@ -24,6 +28,8 @@ namespace ToyRobotSimulator.Core
             _xSize = xSize;
             _ySize = ySize;
         }
+
+        // Class Methods
 
         public void ValidateMoveRobotWillNotFall(Command command)
         {
@@ -73,14 +79,6 @@ namespace ToyRobotSimulator.Core
                 {
                     throw new ArgumentOutOfRangeException($"Your y position is out of bounds, please select a y value between, 0 and {_ySize - 1}");
                 }
-            }
-        }
-
-        public void ValidateRobotHasBeenPlaced()
-        {
-            if (_robot.IsPlaced == false)
-            {
-                throw new InvalidOperationException("Please use the place command to place the robot before you can access other commands");
             }
         }
 

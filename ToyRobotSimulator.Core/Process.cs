@@ -4,14 +4,20 @@ namespace ToyRobotSimulator.Core
 {
     public class Process
     {
+        // Class Variables
+
         private Robot _robot;
         private SquareTableTop _table;
+
+        // Class Constructor
 
         public Process(Robot robot, SquareTableTop table)
         {
             _robot = robot;
             _table = table;
         }
+
+        // Class Methods
 
         public void RunSingleCommand(string commandToExecute)
         {
@@ -23,8 +29,6 @@ namespace ToyRobotSimulator.Core
                 {
                     throw new ArgumentException("This command can only be issued with an additional argument in the format 'x,y,direction'");
                 }
-
-                _table.ValidateRobotHasBeenPlaced();
 
                 switch (commandEnum)
                 {
