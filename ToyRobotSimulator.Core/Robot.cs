@@ -34,7 +34,7 @@ namespace ToyRobotSimulator.Core
         }
 
         // Class Methods
-        
+
         /// <summary>
         /// Places the robot in specified position with direction
         /// </summary>

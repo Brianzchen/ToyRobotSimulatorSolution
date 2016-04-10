@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.IO;
 using ToyRobotSimulator.Core;
 
 namespace ToyRobotSimulator
@@ -13,37 +15,65 @@ namespace ToyRobotSimulator
 
             PrintSimulatorInstructions();
 
-            while (true)
+            if (args.Any())
             {
-                string readLine = Console.ReadLine();
-                if (readLine == null)
+                foreach (string file in args)
                 {
-                    continue;
-                }
-
-                string[] commandSplit = readLine.Trim().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (commandSplit.Length > 0)
-                {
-                    string commandToExecute = commandSplit[0];
-
-                    if (CheckIfCommandHasOneArgument(commandSplit))
+                    if (File.Exists(@file))
                     {
-                        process.RunSingleCommand(commandToExecute);
-                    }
-                    else if (CheckIfCommandHasTwoArguments(commandSplit))
+                        ProcessFile(robot, table, process, file);
+                    } else
                     {
-                        string input = commandSplit[1];
-                        process.RunPlaceCommand(commandToExecute, input);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Command is not valid");
+                        Console.WriteLine("File does not exist");
                     }
                 }
             }
+
+            while (true)
+            {
+                string readLine = Console.ReadLine();
+                RunCommands(robot, table, process, readLine);
+            }
         }
-        
+
+        private static void RunCommands(Robot robot, SquareTableTop table, Process process, string readLine)
+        {
+            if (readLine == null)
+            {
+                return;
+            }
+
+            string[] commandSplit = readLine.Trim().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (commandSplit.Any())
+            {
+                string commandToExecute = commandSplit[0];
+
+                if (CheckIfCommandHasOneArgument(commandSplit))
+                {
+                    process.RunSingleCommand(commandToExecute);
+                }
+                else if (CheckIfCommandHasTwoArguments(commandSplit))
+                {
+                    string input = commandSplit[1];
+                    process.RunPlaceCommand(commandToExecute, input);
+                }
+                else
+                {
+                    Console.WriteLine("Command is not valid");
+                }
+            }
+        }
+
+        private static void ProcessFile(Robot robot, SquareTableTop table, Process process,  string file)
+        {
+            string[] lines = File.ReadAllLines(@file);
+            foreach (string line in lines)
+            {
+                RunCommands(robot, table, process, line);
+            }
+        }
+
         private static void PrintSimulatorInstructions()
         {
             Console.WriteLine("#######################");
@@ -55,7 +85,7 @@ namespace ToyRobotSimulator
             Console.WriteLine("# 5. REPORT to print the current position of the robot");
             Console.WriteLine("#######################");
         }
-        
+
         private static bool CheckIfCommandHasOneArgument(string[] commandSplit)
         {
             return commandSplit.Length == 1;

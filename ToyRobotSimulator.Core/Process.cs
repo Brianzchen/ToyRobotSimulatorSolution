@@ -98,7 +98,7 @@ namespace ToyRobotSimulator.Core
             }
         }
 
-        private static bool ValidateHasThreeInputs(string [] placement)
+        private static bool ValidateHasThreeInputs(string[] placement)
         {
             return placement.Length == 3;
         }
