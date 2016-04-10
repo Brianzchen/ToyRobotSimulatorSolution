@@ -120,6 +120,35 @@ namespace ToyRobotSimulator.UnitTests
         }
 
         [Test]
+        public void ToyRobotCanBeMovedMoreThanOnce()
+        {
+            // Arrange
+            const int xPos = 2;
+            const int yPos = 2;
+            const Direction direction = Direction.North;
+            Robot robot = new Robot();
+
+            // Act
+            robot.Place(xPos, yPos, direction.ToString());
+            robot.Move();
+
+            // Assert
+            Assert.AreEqual(robot.XPos, xPos);
+            Assert.AreEqual(robot.YPos, yPos + 1);
+            Assert.AreEqual(robot.Direction, direction);
+            Assert.IsTrue(robot.IsPlaced);
+
+            // Act
+            robot.Move();
+
+            // Assert
+            Assert.AreEqual(robot.XPos, xPos);
+            Assert.AreEqual(robot.YPos, yPos + 2);
+            Assert.AreEqual(robot.Direction, direction);
+            Assert.IsTrue(robot.IsPlaced);
+        }
+
+        [Test]
         public void ToyRobotCanTurnLeftWithoutChangingPosition()
         {
             // Arrange
@@ -165,6 +194,82 @@ namespace ToyRobotSimulator.UnitTests
 
             // Assert
             Assert.Throws<InvalidOperationException>(() => robot.Move());
+        }
+
+        [Test]
+        public void ToyRobotsFirstValidCommandShouldBePlaceInsteadOfLeft()
+        {
+            // Arrage
+            Robot robot = new Robot();
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => robot.Left());
+        }
+
+        [Test]
+        public void ToyRobotsFirstValidCommandShouldBePlaceInsteadOfRight()
+        {
+            // Arrage
+            Robot robot = new Robot();
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => robot.Right());
+        }
+
+        [Test]
+        public void ToyRobotsFirstValidCommandShouldBePlaceInsteadOfReport()
+        {
+            // Arrage
+            Robot robot = new Robot();
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => robot.Report());
+        }
+
+        [Test]
+        public void ToyRobotShouldBeAbleToBePlacedAfterAlreadyBeingPlaced()
+        {
+            // Arrange
+            const int xPos1 = 2;
+            const int yPos1 = 3;
+            const int xPos2 = 1;
+            const int yPos2 = 1;
+            const Direction direction = Direction.North;
+            Robot robot = new Robot();
+
+            // Act
+            robot.Place(xPos1, yPos1, direction.ToString());
+
+            // Assert
+            Assert.AreEqual(robot.XPos, xPos1);
+            Assert.AreEqual(robot.YPos, yPos1);
+            Assert.AreEqual(robot.Direction, direction);
+            Assert.IsTrue(robot.IsPlaced);
+
+            // Act
+            robot.Place(xPos2, yPos2, direction.ToString());
+
+            // Assert
+            Assert.AreEqual(robot.XPos, xPos2);
+            Assert.AreEqual(robot.YPos, yPos2);
+            Assert.AreEqual(robot.Direction, direction);
+            Assert.IsTrue(robot.IsPlaced);
+        }
+
+        [Test]
+        public void ToyRobotReportMessageReturnsAsExpected()
+        {
+            // Arrange
+            const int xPos = 2;
+            const int yPos = 4;
+            const Direction direction = Direction.North;
+            Robot robot = new Robot();
+
+            // Act
+            robot.Place(xPos, yPos, direction.ToString());
+
+            // Assert
+            StringAssert.AreEqualIgnoringCase("The robot is at position: 2, 4 and facing North", robot.Report());
         }
     }
 }

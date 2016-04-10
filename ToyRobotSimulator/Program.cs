@@ -13,13 +13,6 @@ namespace ToyRobotSimulator
 
             Console.WriteLine("Please begin by placing the robot using the place command");
 
-            if (args.Length > 0)
-            {
-                // Check if text file exists and run text file
-            }
-
-
-
             while (true)
             {
                 string readLine = Console.ReadLine();
