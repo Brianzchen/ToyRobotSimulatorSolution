@@ -43,7 +43,7 @@ namespace ToyRobotSimulator
                 }
             }
         }
-
+        
         private static void PrintSimulatorInstructions()
         {
             Console.WriteLine("#######################");
@@ -55,7 +55,7 @@ namespace ToyRobotSimulator
             Console.WriteLine("# 5. REPORT to print the current position of the robot");
             Console.WriteLine("#######################");
         }
-
+        
         private static bool CheckIfCommandHasOneArgument(string[] commandSplit)
         {
             return commandSplit.Length == 1;

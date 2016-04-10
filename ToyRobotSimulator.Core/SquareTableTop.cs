@@ -12,6 +12,9 @@ namespace ToyRobotSimulator.Core
 
         // Class Constructor
 
+        /// <summary>
+        /// Creates the tabletop that will restrict the robot
+        /// </summary>
         public SquareTableTop(Robot robot, int xSize, int ySize)
         {
             if (robot == null)
@@ -31,6 +34,9 @@ namespace ToyRobotSimulator.Core
 
         // Class Methods
 
+        /// <summary>
+        /// Validates the robot will not fall of the table when it moves
+        /// </summary>
         public void ValidateMoveRobotWillNotFall(Command command)
         {
             if (command != Command.Move) throw new ArgumentException($"You cannot perform this function with the command, {command.ToString()}");
@@ -66,6 +72,9 @@ namespace ToyRobotSimulator.Core
             }
         }
 
+        /// <summary>
+        /// Validates the robot will not fall to its doom when it it placed down
+        /// </summary>
         public void ValidatePlacedRobotWillNotFall(Command command, int xRobotPos, int yRobotPos)
         {
             if (command == Command.Place)

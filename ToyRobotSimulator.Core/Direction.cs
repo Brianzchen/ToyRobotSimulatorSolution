@@ -2,6 +2,9 @@
 
 namespace ToyRobotSimulator.Core
 {
+    /// <summary>
+    /// All possible directions the robot can face
+    /// </summary>
     public enum Direction
     {
         North,
@@ -10,6 +13,9 @@ namespace ToyRobotSimulator.Core
         West
     }
 
+    /// <summary>
+    /// Reused code to validate if input is a valid direction
+    /// </summary>
     public static class DirectionResolver
     {
         public static Direction Resolve(string direction)

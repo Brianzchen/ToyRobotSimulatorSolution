@@ -11,14 +11,25 @@ namespace ToyRobotSimulator.Core
 
         // Class Constructor
 
+        /// <summary>
+        /// Creates a process object to handle commands
+        /// </summary>
         public Process(Robot robot, SquareTableTop table)
         {
+            if (robot == null && table == null)
+            {
+                throw new ArgumentNullException("Robot and table cannot be null");
+            }
+
             _robot = robot;
             _table = table;
         }
 
         // Class Methods
 
+        /// <summary>
+        /// Runs all one argument commands
+        /// </summary>
         public void RunSingleCommand(string commandToExecute)
         {
             try
@@ -55,6 +66,9 @@ namespace ToyRobotSimulator.Core
             }
         }
 
+        /// <summary>
+        /// Runs only the place command
+        /// </summary>
         public void RunPlaceCommand(string commandToExecute, string inputForPlacement)
         {
             try

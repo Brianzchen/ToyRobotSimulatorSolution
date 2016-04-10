@@ -34,7 +34,10 @@ namespace ToyRobotSimulator.Core
         }
 
         // Class Methods
-
+        
+        /// <summary>
+        /// Places the robot in specified position with direction
+        /// </summary>
         public void Place(int x, int y, string direction)
         {
             if (direction == null)
@@ -49,6 +52,9 @@ namespace ToyRobotSimulator.Core
             _placed = true;
         }
 
+        /// <summary>
+        /// Moves the robot one unit in the direction it is facing
+        /// </summary>
         public void Move()
         {
             CheckIfHasBeenPlaced();
@@ -72,6 +78,9 @@ namespace ToyRobotSimulator.Core
             }
         }
 
+        /// <summary>
+        /// Turns the robot 90 degrees left from the direction it was facing
+        /// </summary>
         public void Left()
         {
             CheckIfHasBeenPlaced();
@@ -95,6 +104,9 @@ namespace ToyRobotSimulator.Core
             }
         }
 
+        /// <summary>
+        /// Turns the robot 90 degrees right from the direction it was facing
+        /// </summary>
         public void Right()
         {
             CheckIfHasBeenPlaced();
@@ -118,6 +130,9 @@ namespace ToyRobotSimulator.Core
             }
         }
 
+        /// <summary>
+        /// Returns information of the position of the robot
+        /// </summary>
         public string Report()
         {
             CheckIfHasBeenPlaced();

@@ -2,6 +2,9 @@
 
 namespace ToyRobotSimulator.Core
 {
+    /// <summary>
+    /// All possible robot commands
+    /// </summary>
     public enum Command
     {
         Place,
@@ -11,6 +14,9 @@ namespace ToyRobotSimulator.Core
         Report
     }
 
+    /// <summary>
+    /// Reused code to validate if input is a real command
+    /// </summary>
     public static class CommandResolver
     {
         public static Command Resolve(string commandToExecute)
