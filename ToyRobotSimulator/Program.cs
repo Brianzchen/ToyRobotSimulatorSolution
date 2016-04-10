@@ -11,7 +11,7 @@ namespace ToyRobotSimulator
             SquareTableTop table = new SquareTableTop(robot, 5, 5);
             Process process = new Process(robot, table);
 
-            Console.WriteLine("Please begin by placing the robot using the place command");
+            PrintSimulatorInstructions();
 
             while (true)
             {
@@ -42,6 +42,18 @@ namespace ToyRobotSimulator
                     }
                 }
             }
+        }
+
+        private static void PrintSimulatorInstructions()
+        {
+            Console.WriteLine("#######################");
+            Console.WriteLine("# Robot Toy Simulator Instructions");
+            Console.WriteLine("# 1. PLACE 2,3,NORTH to place the robot in position 2, 3 facing north");
+            Console.WriteLine("# 2. LEFT to turn the robot left");
+            Console.WriteLine("# 3. RIGHT to turn the robot right");
+            Console.WriteLine("# 4. MOVE to move the robot one step forward in it\'s direction");
+            Console.WriteLine("# 5. REPORT to print the current position of the robot");
+            Console.WriteLine("#######################");
         }
 
         private static bool CheckIfCommandHasOneArgument(string[] commandSplit)

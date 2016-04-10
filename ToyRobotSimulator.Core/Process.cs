@@ -63,11 +63,11 @@ namespace ToyRobotSimulator.Core
 
                 if (commandEnum != Command.Place) throw new ArgumentException("This is not a valid command");
 
-                string[] placement = inputForPlacement.Split(',');
-                if (placement.Length == 3)
+                string[] placement = inputForPlacement.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                if (ValidateHasThreeInputs(placement))
                 {
-                    int xRobotPos = Convert.ToInt32(placement[0]);
-                    int yRobotPos = Convert.ToInt32(placement[1]);
+                    int xRobotPos = TryConvertValueToInt(placement[0], "x");
+                    int yRobotPos = TryConvertValueToInt(placement[1], "y");
                     string robotDirection = placement[2];
 
                     _table.ValidatePlacedRobotWillNotFall(commandEnum, xRobotPos, yRobotPos);
@@ -81,6 +81,25 @@ namespace ToyRobotSimulator.Core
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private static bool ValidateHasThreeInputs(string [] placement)
+        {
+            return placement.Length == 3;
+        }
+
+        private static int TryConvertValueToInt(string value, string coord)
+        {
+            try
+            {
+                int result = Convert.ToInt32(value);
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw new InvalidCastException($"The value you have entered for {coord} is not a number and cannot be processed");
             }
         }
     }
