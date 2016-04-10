@@ -16,9 +16,14 @@ namespace ToyRobotSimulator.Core
         /// </summary>
         public Process(Robot robot, SquareTableTop table)
         {
-            if (robot == null && table == null)
+            if (robot == null)
             {
-                throw new ArgumentNullException("Robot and table cannot be null");
+                throw new ArgumentNullException("Robot cannot be null");
+            }
+
+            if (table == null)
+            {
+                throw new ArgumentNullException("Table cannot be null");
             }
 
             _robot = robot;
@@ -107,9 +112,7 @@ namespace ToyRobotSimulator.Core
         {
             try
             {
-                int result = Convert.ToInt32(value);
-
-                return result;
+                return Convert.ToInt32(value);
             }
             catch (Exception)
             {

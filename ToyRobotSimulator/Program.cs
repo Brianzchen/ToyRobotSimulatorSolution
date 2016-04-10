@@ -17,16 +17,7 @@ namespace ToyRobotSimulator
 
             if (args.Any())
             {
-                foreach (string file in args)
-                {
-                    if (File.Exists(@file))
-                    {
-                        ProcessFile(robot, table, process, file);
-                    } else
-                    {
-                        Console.WriteLine("File does not exist");
-                    }
-                }
+                ProcessArgs(robot, table, process, args);
             }
 
             while (true)
@@ -49,11 +40,11 @@ namespace ToyRobotSimulator
             {
                 string commandToExecute = commandSplit[0];
 
-                if (CheckIfCommandHasOneArgument(commandSplit))
+                if (CommandHasOneArgument(commandSplit))
                 {
                     process.RunSingleCommand(commandToExecute);
                 }
-                else if (CheckIfCommandHasTwoArguments(commandSplit))
+                else if (CommandHasTwoArguments(commandSplit))
                 {
                     string input = commandSplit[1];
                     process.RunPlaceCommand(commandToExecute, input);
@@ -65,7 +56,22 @@ namespace ToyRobotSimulator
             }
         }
 
-        private static void ProcessFile(Robot robot, SquareTableTop table, Process process,  string file)
+        private static void ProcessArgs(Robot robot, SquareTableTop table, Process process, string[] args)
+        {
+            foreach (string file in args)
+            {
+                if (File.Exists(@file))
+                {
+                    ProcessFile(robot, table, process, file);
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist");
+                }
+            }
+        }
+
+        private static void ProcessFile(Robot robot, SquareTableTop table, Process process, string file)
         {
             string[] lines = File.ReadAllLines(@file);
             foreach (string line in lines)
@@ -86,12 +92,12 @@ namespace ToyRobotSimulator
             Console.WriteLine("#######################");
         }
 
-        private static bool CheckIfCommandHasOneArgument(string[] commandSplit)
+        private static bool CommandHasOneArgument(string[] commandSplit)
         {
             return commandSplit.Length == 1;
         }
 
-        private static bool CheckIfCommandHasTwoArguments(string[] commandSplit)
+        private static bool CommandHasTwoArguments(string[] commandSplit)
         {
             return commandSplit.Length == 2;
         }
