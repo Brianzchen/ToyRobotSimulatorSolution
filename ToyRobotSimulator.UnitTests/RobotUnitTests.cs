@@ -269,7 +269,7 @@ namespace ToyRobotSimulator.UnitTests
             robot.Place(xPos, yPos, direction.ToString());
 
             // Assert
-            StringAssert.AreEqualIgnoringCase("The robot is at position: 2, 4 and facing North", robot.Report());
+            Assert.That("The robot is at position: 2, 4 and facing North", Is.EqualTo(robot.Report()));
         }
     }
 }
