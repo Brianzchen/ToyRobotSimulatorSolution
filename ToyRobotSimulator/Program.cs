@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToyRobotSimulator.Core;
 
 namespace ToyRobotSimulator
@@ -13,6 +9,7 @@ namespace ToyRobotSimulator
         {
             Robot robot = new Robot();
             SquareTableTop table = new SquareTableTop(robot, 5, 5);
+            Process process = new Process(robot, table);
 
             Console.WriteLine("Please begin by placing the robot using the place command");
 
@@ -21,20 +18,26 @@ namespace ToyRobotSimulator
                 // Check if text file exists and run text file
             }
 
-            Process process;
+            
 
             while (true)
             {
-                string[] commandSplit = Console.ReadLine().Split();
-                string command = commandSplit[0];
+                string readLine = Console.ReadLine();
+                if (readLine == null)
+                {
+                    continue;
+                }
+
+                string[] commandSplit = readLine.Trim().Split();
+                string commandToExecute = commandSplit[0];
 
                 if (commandSplit.Length == 1)
                 {
-                    process = new Process(robot, table, command);
+                    process.Simulate(commandToExecute);
                 } else if (commandSplit.Length == 2)
                 {
                     string input = commandSplit[1];
-                    process = new Process(robot, table, command, input);
+                    process.Simulate(commandToExecute, input);
                 } else
                 {
                     Console.WriteLine("Command is not valid");

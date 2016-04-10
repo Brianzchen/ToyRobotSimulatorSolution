@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ToyRobotSimulator.Core
 {
@@ -117,6 +113,11 @@ namespace ToyRobotSimulator.Core
                 default:
                     throw new ArgumentOutOfRangeException("Direction is not valid");
             }
+        }
+
+        public string Report()
+        {
+            return "The robot is at position: " + _xPos + ", " + _yPos + " and facing " + _direction;
         }
     }
 }

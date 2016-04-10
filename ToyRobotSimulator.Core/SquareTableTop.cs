@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ToyRobotSimulator.Core
 {
@@ -28,41 +24,42 @@ namespace ToyRobotSimulator.Core
             _ySize = ySize;
         }
 
-        public void ValidateRobotWillNotFallOffTableTop(Command command)
+        public void ValidateMoveRobotWillNotFall(Command command)
         {
-            if (command == Command.Move)
+            if (command != Command.Move) return;
+
+            switch(_robot.Direction)
             {
-                switch(_robot.Direction)
-                {
-                    case Direction.North:
-                        if (_robot.YPos+1 >= _ySize)
-                        {
-                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further North, please turn the robot or place it at a new location");
-                        }
-                        break;
-                    case Direction.South:
-                        if (_robot.YPos-1 < 0)
-                        {
-                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further South, please turn the robot or place it at a new location");
-                        }
-                        break;
-                    case Direction.East:
-                        if (_robot.XPos+1 >= _xSize)
-                        {
-                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further East, please turn the robot or place it at a new location");
-                        }
-                        break;
-                    case Direction.West:
-                        if (_robot.XPos-1 < 0)
-                        {
-                            throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further West, please turn the robot or place it at a new location");
-                        }
-                        break;
-                }
+                case Direction.North:
+                    if (_robot.YPos+1 >= _ySize)
+                    {
+                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further North, please turn the robot or place it at a new location");
+                    }
+                    break;
+                case Direction.South:
+                    if (_robot.YPos-1 < 0)
+                    {
+                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further South, please turn the robot or place it at a new location");
+                    }
+                    break;
+                case Direction.East:
+                    if (_robot.XPos+1 >= _xSize)
+                    {
+                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further East, please turn the robot or place it at a new location");
+                    }
+                    break;
+                case Direction.West:
+                    if (_robot.XPos-1 < 0)
+                    {
+                        throw new InvalidOperationException("The robot is at " + _robot.XPos + ", " + _robot.YPos + " and connot move further West, please turn the robot or place it at a new location");
+                    }
+                    break;
+                default:
+                    throw new InvalidOperationException("Robot cannot move in an invalid direction");
             }
         }
 
-        public void ValidateRobotWillNotFallOffTableTop(Command command, int xRobotPos, int yRobotPos)
+        public void ValidatePlacedRobotWillNotFall(Command command, int xRobotPos, int yRobotPos)
         {
             if (command == Command.Place)
             {
